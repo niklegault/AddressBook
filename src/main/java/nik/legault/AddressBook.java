@@ -1,5 +1,6 @@
 package nik.legault;
 
+import jakarta.persistence.*;
 import java.util.ArrayList;
 
 /**
@@ -8,12 +9,37 @@ import java.util.ArrayList;
  *
  * @author Nik Legault 101229919
  */
+@Entity
 public class AddressBook {
+    private Long id;
     private ArrayList<BuddyInfo> buddies;
 
     public  AddressBook() {
         this.buddies = new ArrayList<>();
     }
+
+    /**
+     * @return The address book ID
+     */
+    @Id
+    @GeneratedValue
+    public Long getId() { return this.id; }
+
+    /**
+     * @param id The id to give the address book
+     */
+    public void setId(Long id) { this.id = id; }
+
+    /**
+     * @return List of all buddies
+     */
+    @OneToMany (cascade = CascadeType.PERSIST)
+    public ArrayList<BuddyInfo> getBuddies() { return this.buddies; }
+
+    /**
+     * @param buddies The list of buddies to set for this address book
+     */
+    public void setBuddies(ArrayList<BuddyInfo> buddies) { this.buddies = buddies; }
 
     /**
      * Add a new buddy to the address book
