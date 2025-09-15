@@ -7,7 +7,6 @@ import static org.junit.Assert.*;
 
 /**
  * JUnit 4 tests for BuddyInfo JPA persistence.
- * This version uses a "commit and clean up" strategy for reliable test isolation.
  */
 public class BuddyInfoPersistenceTest {
 
@@ -20,7 +19,6 @@ public class BuddyInfoPersistenceTest {
      */
     @BeforeClass
     public static void setUpClass() {
-        // The name "contacts" must match the <persistence-unit name=""> in your persistence.xml
         emf = Persistence.createEntityManagerFactory("contacts");
     }
 
@@ -48,12 +46,10 @@ public class BuddyInfoPersistenceTest {
      */
     @After
     public void tearDown() {
-        // Commit the transaction that ran during the test
         if (tx.isActive()) {
             tx.commit();
         }
 
-        // Start a new transaction specifically for cleanup
         tx.begin();
         em.createQuery("DELETE FROM BuddyInfo").executeUpdate();
         tx.commit();
@@ -69,7 +65,6 @@ public class BuddyInfoPersistenceTest {
         BuddyInfo buddy = new BuddyInfo("Jared", "123-456-7890");
         em.persist(buddy);
 
-        // Flush the context to the DB to assign the ID before the transaction commits
         em.flush();
 
         BuddyInfo foundBuddy = em.find(BuddyInfo.class, buddy.getId());
