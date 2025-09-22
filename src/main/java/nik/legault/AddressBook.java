@@ -2,6 +2,7 @@ package nik.legault;
 
 import jakarta.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class models an address book that contains information about
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 @Entity
 public class AddressBook {
     private Long id;
-    private ArrayList<BuddyInfo> buddies;
+    private List<BuddyInfo> buddies;
 
     public  AddressBook() {
         this.buddies = new ArrayList<>();
@@ -34,12 +35,12 @@ public class AddressBook {
      * @return List of all buddies
      */
     @OneToMany (cascade = CascadeType.PERSIST)
-    public ArrayList<BuddyInfo> getBuddies() { return this.buddies; }
+    public List<BuddyInfo> getBuddies() { return this.buddies; }
 
     /**
      * @param buddies The list of buddies to set for this address book
      */
-    public void setBuddies(ArrayList<BuddyInfo> buddies) { this.buddies = buddies; }
+    public void setBuddies(List<BuddyInfo> buddies) { this.buddies = buddies; }
 
     /**
      * Add a new buddy to the address book

@@ -1,76 +1,48 @@
 package nik.legault;
 
-import jakarta.persistence.*;
-import org.junit.*;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.List;
+import java.util.Optional;
+
 import static org.junit.Assert.*;
 
 /**
- * JUnit 4 tests for AddressBook JPA persistence.
- * Verifies that AddressBook entities and their relationships are correctly managed.
+ * Spring Boot integration test for the AddressBookRepository using JUnit 4.
+ * Verifies that the repository correctly persists and queries AddressBook entities.
  */
+@RunWith(SpringRunner.class)
+@DataJpaTest
 public class AddressBookPersistenceTest {
-    private static EntityManagerFactory emf;
-    private EntityManager em;
-    private EntityTransaction tx;
+
+    @Autowired
+    private AddressBookRepository addressBookRepository;
 
     /**
-     * Set up the EntityManagerFactory before any tests run.
-     */
-    @BeforeClass
-    public static void setUpClass() {
-        emf = Persistence.createEntityManagerFactory("contacts");
-    }
-
-    /**
-     * Tear down the EntityManagerFactory after all tests have finished.
-     */
-    @AfterClass
-    public static void tearDownClass() {
-        emf.close();
-    }
-
-    /**
-     * Set up the EntityManager and begin a transaction before each test.
-     * This ensures each test runs in isolation.
-     */
-    @Before
-    public void setUp() {
-        em = emf.createEntityManager();
-        tx = em.getTransaction();
-        tx.begin();
-    }
-
-    /**
-     * Rollback the transaction and close the EntityManager after each test.
-     * Rolling back ensures the database is clean for the next test.
-     */
-    @After
-    public void tearDown() {
-        if (tx.isActive()) {
-            tx.rollback();
-        }
-        em.close();
-    }
-
-    /**
-     * Tests if an AddressBook with its BuddyInfo list can be persisted and found.
+     * Tests if an AddressBook and its BuddyInfo list can be saved and found by ID.
      */
     @Test
-    public void testPersistAndFindAddressBook() {
+    public void testSaveAndFindById() {
+        // --- Setup ---
         AddressBook addressBook = new AddressBook();
         BuddyInfo buddy1 = new BuddyInfo("Jared", "123-456-7890");
         BuddyInfo buddy2 = new BuddyInfo("Noah", "234-567-8901");
 
-        addressBook.addBuddy(buddy1.getName(), buddy1.getPhone());
-        addressBook.addBuddy(buddy2.getName(), buddy2.getPhone());
+        addressBook.getBuddies().add(buddy1);
+        addressBook.getBuddies().add(buddy2);
 
-        em.persist(addressBook);
-        tx.commit();
+        // --- Action ---
+        AddressBook savedAddressBook = addressBookRepository.save(addressBook);
+        Optional<AddressBook> foundOptional = addressBookRepository.findById(savedAddressBook.getId());
 
-        tx.begin();
-        AddressBook foundAddressBook = em.find(AddressBook.class, addressBook.getId());
+        // --- Asserts ---
+        assertTrue("An address book should be found.", foundOptional.isPresent());
+        AddressBook foundAddressBook = foundOptional.get();
 
-        assertNotNull("The found address book should not be null.", foundAddressBook);
         assertNotNull("The buddies list should not be null.", foundAddressBook.getBuddies());
         assertEquals("The address book should contain two buddies.", 2, foundAddressBook.getBuddies().size());
 
@@ -79,23 +51,26 @@ public class AddressBookPersistenceTest {
     }
 
     /**
-     * Tests querying for a single AddressBook from the database.
+     * Tests the custom repository method to find an AddressBook by a buddy's name.
      */
     @Test
-    public void testQuerySingleAddressBook() {
+    public void testFindByBuddiesName() {
+        // --- Setup ---
         AddressBook addressBook = new AddressBook();
-        addressBook.addBuddy("Liam", "345-678-9012");
-        em.persist(addressBook);
-        tx.commit();
+        BuddyInfo buddy = new BuddyInfo("Liam", "345-678-9012");
+        addressBook.getBuddies().add(buddy);
 
-        tx.begin();
-        Query q = em.createQuery("SELECT a FROM AddressBook a WHERE a.id = :id");
-        q.setParameter("id", addressBook.getId());
+        addressBookRepository.save(addressBook);
 
-        AddressBook result = (AddressBook) q.getSingleResult();
+        // --- Action ---
+        List<AddressBook> results = addressBookRepository.findByBuddiesName("Liam");
 
-        assertNotNull("The query result should not be null.", result);
-        assertEquals("The result should have one buddy.", 1, result.getBuddies().size());
-        assertEquals("The buddy's name should be Liam.", "Liam", result.getBuddies().get(0).getName());
+        // --- Asserts ---
+        assertNotNull("The query result should not be null.", results);
+        assertEquals("The query should find one address book.", 1, results.size());
+
+        AddressBook foundBook = results.get(0);
+        assertEquals("The result should have one buddy.", 1, foundBook.getBuddies().size());
+        assertEquals("The buddy's name should be Liam.", "Liam", foundBook.getBuddies().get(0).getName());
     }
 }
