@@ -1,6 +1,7 @@
 package nik.legault;
 
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.List;
 
@@ -9,6 +10,7 @@ import java.util.List;
  *
  * @author Nik Legault 101229919
  */
+@RepositoryRestResource(collectionResourceRel = "buddies", path = "buddies")
 public interface BuddyInfoRepository extends CrudRepository<BuddyInfo, Long> {
 
     /**
