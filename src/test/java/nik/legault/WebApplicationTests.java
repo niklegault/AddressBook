@@ -35,8 +35,8 @@ public class WebApplicationTests {
     public void testViewAddressBook() throws Exception {
         AddressBook addressBook = new AddressBook();
         addressBook.setId(1L);
-        BuddyInfo buddy = new BuddyInfo("John Doe", "555-1234");
-        addressBook.addBuddy(buddy.getName(), buddy.getPhone());
+        BuddyInfo buddy = new BuddyInfo("John Doe", "555-1234", "road");
+        addressBook.addBuddy(buddy.getName(), buddy.getPhone(), buddy.getAddress());
 
         when(addressBookRepository.findById(1L)).thenReturn(Optional.of(addressBook));
 

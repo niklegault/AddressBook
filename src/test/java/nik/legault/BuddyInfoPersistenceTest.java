@@ -30,7 +30,7 @@ public class BuddyInfoPersistenceTest {
     @Test
     public void testSaveAndFindBuddy() {
         // --- Action ---
-        BuddyInfo buddy = new BuddyInfo("Jared", "123-456-7890");
+        BuddyInfo buddy = new BuddyInfo("Jared", "123-456-7890", "985 road");
         BuddyInfo savedBuddy = buddyInfoRepository.save(buddy);
 
         // Use the repository to find the buddy by its generated ID
@@ -48,8 +48,8 @@ public class BuddyInfoPersistenceTest {
     public void testFindAllMultipleBuddies() {
         // --- Action ---
         buddyInfoRepository.saveAll(Arrays.asList(
-                new BuddyInfo("Noah", "234-567-8901"),
-                new BuddyInfo("Liam", "345-678-9012")
+                new BuddyInfo("Noah", "234-567-8901", "rideau"),
+                new BuddyInfo("Liam", "345-678-9012", "dunrobin")
         ));
 
         // Use the repository's built-in findAll method

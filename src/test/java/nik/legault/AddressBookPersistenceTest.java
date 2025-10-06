@@ -29,8 +29,8 @@ public class AddressBookPersistenceTest {
     public void testSaveAndFindById() {
         // --- Setup ---
         AddressBook addressBook = new AddressBook();
-        BuddyInfo buddy1 = new BuddyInfo("Jared", "123-456-7890");
-        BuddyInfo buddy2 = new BuddyInfo("Noah", "234-567-8901");
+        BuddyInfo buddy1 = new BuddyInfo("Jared", "123-456-7890", "985 road");
+        BuddyInfo buddy2 = new BuddyInfo("Noah", "234-567-8901", "rideau");
 
         addressBook.getBuddies().add(buddy1);
         addressBook.getBuddies().add(buddy2);
@@ -57,7 +57,7 @@ public class AddressBookPersistenceTest {
     public void testFindByBuddiesName() {
         // --- Setup ---
         AddressBook addressBook = new AddressBook();
-        BuddyInfo buddy = new BuddyInfo("Liam", "345-678-9012");
+        BuddyInfo buddy = new BuddyInfo("Liam", "345-678-9012", "dunrobin");
         addressBook.getBuddies().add(buddy);
 
         addressBookRepository.save(addressBook);

@@ -12,11 +12,12 @@ import jakarta.persistence.Id;
 @Entity
 public class BuddyInfo {
     private Long id;
-    private String name, phone;
+    private String name, phone, address;
 
-    public BuddyInfo(String name, String phone) {
+    public BuddyInfo(String name, String phone, String address) {
         this.name = name;
         this.phone = phone;
+        this.address = address;
     }
 
     public BuddyInfo() {}
@@ -63,5 +64,19 @@ public class BuddyInfo {
      */
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    /**
+     * @return the buddy's address
+     */
+    public String getAddress() {
+        return this.address;
+    }
+
+    /**
+     * @param address the buddy's address
+     */
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

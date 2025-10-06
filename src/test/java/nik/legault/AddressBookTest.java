@@ -22,7 +22,7 @@ public class AddressBookTest {
      */
     @Test
     public void testAddAndGetBuddyByName() {
-        addressBook.addBuddy("Alice", "123-456-7890");
+        addressBook.addBuddy("Alice", "123-456-7890", "road");
         BuddyInfo retrievedBuddy = addressBook.getBuddy("Alice");
 
         assertNotNull("Retrieved buddy should not be null.", retrievedBuddy);
@@ -34,7 +34,7 @@ public class AddressBookTest {
      */
     @Test
     public void testRemoveBuddy() {
-        addressBook.addBuddy("Charlie", "333-3333");
+        addressBook.addBuddy("Charlie", "333-3333", "street");
         BuddyInfo charlie = addressBook.getBuddy("Charlie");
         assertNotNull("Charlie should exist before removal.", charlie);
 
@@ -58,8 +58,8 @@ public class AddressBookTest {
     public void testSetAndGetBuddies() {
         // Create a new list of buddies
         ArrayList<BuddyInfo> newBuddies = new ArrayList<>();
-        newBuddies.add(new BuddyInfo("Dave", "444-4444"));
-        newBuddies.add(new BuddyInfo("Eve", "555-5555"));
+        newBuddies.add(new BuddyInfo("Dave", "444-4444", "ktown"));
+        newBuddies.add(new BuddyInfo("Eve", "555-5555", "ave"));
 
         // Set this new list in the address book
         addressBook.setBuddies(newBuddies);
@@ -75,8 +75,8 @@ public class AddressBookTest {
      */
     @Test
     public void testToStringWithBuddies() {
-        addressBook.addBuddy("Frank", "666-6666");
+        addressBook.addBuddy("Frank", "666-6666", "road");
         String result = addressBook.toString();
-        assertTrue("toString() should contain Frank's info.", result.contains("Frank | 666-6666"));
+        assertTrue("toString() should contain Frank's info.", result.contains("Frank | 666-6666 |  road"));
     }
 }

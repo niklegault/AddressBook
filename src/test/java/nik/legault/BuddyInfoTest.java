@@ -13,9 +13,10 @@ public class BuddyInfoTest {
      */
     @Test
     public void testConstructorAndGetters() {
-        BuddyInfo buddy = new BuddyInfo("John Doe", "555-1234");
+        BuddyInfo buddy = new BuddyInfo("John Doe", "555-1234", "road");
         assertEquals("Name should match the value set in constructor.", "John Doe", buddy.getName());
         assertEquals("Phone should match the value set in constructor.", "555-1234", buddy.getPhone());
+        assertEquals("Address should match the value set in constructor.", "road", buddy.getAddress());
     }
 
     /**
@@ -28,6 +29,7 @@ public class BuddyInfoTest {
         assertNotNull("Buddy object should not be null.", buddy);
         assertNull("Name should be null initially.", buddy.getName());
         assertNull("Phone should be null initially.", buddy.getPhone());
+        assertNull("Address should be null initially.", buddy.getAddress());
     }
 
     /**
@@ -48,6 +50,16 @@ public class BuddyInfoTest {
         BuddyInfo buddy = new BuddyInfo();
         buddy.setPhone("987-654-3210");
         assertEquals("Phone should be updated by the setter.", "987-654-3210", buddy.getPhone());
+    }
+
+    /**
+     * Tests the setter and getter for the 'address' property
+     */
+    @Test
+    public void testSetAddress() {
+        BuddyInfo buddy = new BuddyInfo();
+        buddy.setAddress("road");
+        assertEquals("Address should be updated by the setter.", "road", buddy.getAddress());
     }
 
     /**

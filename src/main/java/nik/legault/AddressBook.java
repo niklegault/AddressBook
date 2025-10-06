@@ -47,9 +47,10 @@ public class AddressBook {
      *
      * @param name The name of your buddy
      * @param phone The phone number of your buddy
+     * @param address The address of the buddy
      */
-    public void addBuddy(String name, String phone) {
-        BuddyInfo newBuddy = new BuddyInfo(name, phone);
+    public void addBuddy(String name, String phone, String address) {
+        BuddyInfo newBuddy = new BuddyInfo(name, phone, address);
         this.buddies.add(newBuddy);
     }
 
