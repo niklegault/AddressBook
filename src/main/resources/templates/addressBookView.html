@@ -5,19 +5,41 @@
     <title>Address Book</title>
 </head>
 <body>
+    <form action="#" th:action="@{/}" method="get">
+        <p>
+            <input type="submit" value="Return Home" />
+        </p>
+    </form>
     <h1 th:text="'Buddies in Address Book #' + ${addressBook.id}">Address Book Buddies</h1>
+
+    <form action="#" >
+        <p>
+            Name <input type="text"/>
+        </p>
+        <p>
+            Phone number <input type="text"/>
+        </p>
+        <p>
+            Address <input type="text"/>
+        </p>
+        <p>
+            <input type="submit" value="Create Buddy" />
+        </p>
+    </form>
 
     <table>
         <thead>
             <tr>
                 <th>Name</th>
                 <th>Phone</th>
+                <th>Address</th>
             </tr>
         </thead>
         <tbody>
             <tr th:each="buddy : ${addressBook.buddies}">
                 <td th:text="${buddy.name}">John Doe</td>
                 <td th:text="${buddy.phone}">111</td>
+                <td th:text="${buddy.address}">123 main st</td>
             </tr>
         </tbody>
     </table>
