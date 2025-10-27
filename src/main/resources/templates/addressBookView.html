@@ -12,7 +12,11 @@
     </form>
     <h1 th:text="'Buddies in Address Book #' + ${addressBook.getId()}">Address Book Buddies</h1>
 
-    <form action="#" th:action="@{/addressBooks/{id}/buddies(id=${addressBook.getId()})}" th:object="${buddyInfo}" method="post">
+    <form id="addBuddyForm"
+          action="#"
+          th:action="@{/addressBooks/{id}/buddies(id=${addressBook.getId()})}"
+          th:object="${buddyInfo}"
+          method="post">
         <p>
             Name <input type="text" th:field="*{name}"/>
         </p>
@@ -27,7 +31,7 @@
         </p>
     </form>
 
-    <table>
+    <table id="buddyTableBody">
         <thead>
             <tr>
                 <th>Name</th>
@@ -43,6 +47,32 @@
             </tr>
         </tbody>
     </table>
+
+    <script th:inline="javascript">
+        document.addEventListener("DOMContentLoaded", function() {
+           const buddyForm = document.getElementById("addBuddyForm");
+           buddyForm.addEventListener("submit", function(event) {
+               event.preventDefault();
+               const url = buddyForm.action;
+               const formData = new FormData(buddyForm);
+
+               fetch(url, {
+                   method: 'POST',
+                   body: new URLSearchParams(formData)
+               }).then(response => {
+                   if(response.ok) {
+                       window.location.reload();
+                   } else {
+                       alert("Failed to create buddy")
+                   }
+               }).catch(error => {
+                   console.error("Error: ", error);
+                   alert("An Error occured");
+               });
+           });
+        });
+
+    </script>
 
 </body>
 </html>
