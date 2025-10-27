@@ -10,17 +10,17 @@
             <input type="submit" value="Return Home" />
         </p>
     </form>
-    <h1 th:text="'Buddies in Address Book #' + ${addressBook.id}">Address Book Buddies</h1>
+    <h1 th:text="'Buddies in Address Book #' + ${addressBook.getId()}">Address Book Buddies</h1>
 
-    <form action="#" >
+    <form action="#" th:action="@{/addressBooks/{id}/buddies(id=${addressBook.getId()})}" th:object="${buddyInfo}" method="post">
         <p>
-            Name <input type="text"/>
+            Name <input type="text" th:field="*{name}"/>
         </p>
         <p>
-            Phone number <input type="text"/>
+            Phone number <input type="text" th:field="*{phone}"/>
         </p>
         <p>
-            Address <input type="text"/>
+            Address <input type="text" th:field="*{address}"/>
         </p>
         <p>
             <input type="submit" value="Create Buddy" />
@@ -43,5 +43,6 @@
             </tr>
         </tbody>
     </table>
+
 </body>
 </html>

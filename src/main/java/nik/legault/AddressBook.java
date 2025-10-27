@@ -12,7 +12,11 @@ import java.util.List;
  */
 @Entity
 public class AddressBook {
+    @Id
+    @GeneratedValue
     private Long id;
+
+    @OneToMany (cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<BuddyInfo> buddies;
 
     public  AddressBook() {
@@ -22,8 +26,6 @@ public class AddressBook {
     /**
      * @return The address book ID
      */
-    @Id
-    @GeneratedValue
     public Long getId() { return this.id; }
 
     /**
@@ -34,7 +36,6 @@ public class AddressBook {
     /**
      * @return List of all buddies
      */
-    @OneToMany (cascade = CascadeType.PERSIST)
     public List<BuddyInfo> getBuddies() { return this.buddies; }
 
     /**
@@ -53,6 +54,7 @@ public class AddressBook {
         BuddyInfo newBuddy = new BuddyInfo(name, phone, address);
         this.buddies.add(newBuddy);
     }
+
 
     /**
      * Retrieve the contact of a buddy based on their name

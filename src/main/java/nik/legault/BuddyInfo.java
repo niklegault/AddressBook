@@ -11,6 +11,8 @@ import jakarta.persistence.Id;
  */
 @Entity
 public class BuddyInfo {
+    @Id
+    @GeneratedValue
     private Long id;
     private String name, phone, address;
 
@@ -25,8 +27,6 @@ public class BuddyInfo {
     /**
      * @return the buddy's id
      */
-    @Id
-    @GeneratedValue
     public Long getId() {
         return this.id;
     }
