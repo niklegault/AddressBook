@@ -57,6 +57,7 @@ public class AddressBookViewController {
         Optional<AddressBook> addressBookOptional = addressBookRepository.findById(id);
         if(addressBookOptional.isPresent()) {
             AddressBook addressBook =  addressBookOptional.get();
+            //BuddyInfo savedBuddy =  buddyInfoRepository.save(buddyInfo);
             addressBook.addBuddy(buddyInfo.getName(), buddyInfo.getPhone(), buddyInfo.getAddress());
             addressBookRepository.save(addressBook);
             return "redirect:/addressBooks/" + id + "?buddyAdded=true&buddyId=" + buddyInfo.getId();

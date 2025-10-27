@@ -16,7 +16,7 @@ public class AddressBook {
     @GeneratedValue
     private Long id;
 
-    @OneToMany (cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @OneToMany (cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BuddyInfo> buddies;
 
     public  AddressBook() {
